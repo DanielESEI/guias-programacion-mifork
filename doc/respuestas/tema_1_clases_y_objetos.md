@@ -3,7 +3,9 @@
 
 ## 1. ¿Cuáles son las cuatro características básicas de la programación orientada a objetos? Describe brevemente cada una
 
-Las cuatro características fundamentales de la programación orientada a objetos son: **encapsulación**, **herencia**, **polimorfismo** y **abstracción**.
+Las cuatro características fundamentales de la programación orientada a objetos son: **abstracción**, **encapsulación**, **herencia** y **polimorfismo**.
+
+**La abstracción** consiste
 
 La **encapsulación** consiste en agrupar datos (atributos) y funciones (métodos) que operan sobre esos datos dentro de una misma unidad llamada clase, ocultando los detalles internos de implementación y exponiendo solo lo necesario mediante interfaces públicas. Esto permite proteger la integridad de los datos y facilita el mantenimiento del código.
 
@@ -13,42 +15,43 @@ Finalmente, la **abstracción** consiste en modelar entidades del mundo real med
 
 ## 2. Cita cuatro lenguajes populares que permitan la programación orientada a objetos
 
-Cuatro lenguajes populares que soportan programación orientada a objetos son:
-
-- **Java**: Lenguaje puramente orientado a objetos (casi todo es un objeto), multiplataforma gracias a la JVM.
+### Dinámicos
+-**JavaScript** (alto nivel, sin clases)
 - **Python**: Lenguaje multiparadigma que soporta POO de forma natural y flexible.
-- **C++**: Extensión de C que añade soporte para POO, permitiendo combinar programación estructurada y orientada a objetos.
+### Compilados (Programas Grandes)
+**Recolectores de Basura** (GC)
+- **Java**: Lenguaje puramente orientado a objetos (casi todo es un objeto), multiplataforma gracias a la JVM.
 - **C#**: Lenguaje orientado a objetos desarrollado por Microsoft para la plataforma .NET, similar a Java en muchos aspectos.
+- **Sin Recolectores de Basura** (No GC)
+- **C++**: Extensión de C que añade soporte para POO, permitiendo combinar programación estructurada y orientada a objetos.
+- **Rust**
+
 
 ## 3. Los paradigmas anteriores a la POO, ¿Qué es la **programación estructurada**? y, todavía mejor, ¿Qué es la **programación modular**?
 
-La **programación estructurada** es un paradigma que surgió en los años 60-70 para mejorar la claridad y calidad del código. Se basa en el uso de estructuras de control bien definidas (secuencia, selección con `if/switch`, e iteración con bucles `for/while`) y evita el uso de instrucciones `goto`. Este enfoque facilita la lectura, comprensión y mantenimiento del código al seguir un flujo de ejecución más predecible. Lenguajes como C implementan este paradigma de forma efectiva.
+Anterior a estes tipos se programaba en **Ensamblador**, el cual permitía la *Secuencia* (seguir un orden) y el salto arbitrario *Goto* (JMP, salto sin resultado = 0).
 
-La **programación modular** es una evolución que propone dividir el programa en módulos o unidades independientes, cada uno con una funcionalidad específica y bien definida. Cada módulo encapsula datos y funciones relacionadas, exponiendo solo lo necesario a través de interfaces públicas. Esto permite desarrollar, probar y mantener cada módulo de forma independiente, facilitando el trabajo en equipo y la reutilización de código.
+La **programación estructurada** es un paradigma que surgió en los años 60-70 para mejorar la claridad y calidad del código. Se basa en el uso de estructuras de control modernas (secuencia, selección con `if/switch`, e iteración con bucles `for/while`) y evita el uso de instrucciones `goto`. Este enfoque facilita la lectura, comprensión y mantenimiento del código al seguir un flujo de ejecución más predecible. Lenguajes como C implementan este paradigma de forma efectiva.
 
-Ambos paradigmas sentaron las bases para la POO: la programación estructurada aportó las estructuras de control que se usan dentro de los métodos, mientras que la programación modular introdujo conceptos de encapsulación y separación de responsabilidades que evolucionaron hacia las clases y objetos.
+La **programación modular** es una evolución que propone dividir el programa en módulos o unidades independientes, cada uno con una funcionalidad específica y bien definida. Cada módulo encapsula datos y funciones relacionadas, exponiendo solo lo necesario a través de interfaces públicas. Esto permite desarrollar, probar y mantener cada módulo de forma independiente, facilitando el trabajo en equipo y la reutilización de código. Agrupar código para facilitar su uso por otros programas en otros módulos.
 
 ## 4. ¿Qué tres elementos definen a un objeto en programación orientada a objetos?
 
 Un objeto en programación orientada a objetos se define por tres elementos fundamentales: **identidad**, **estado** y **comportamiento**.
 
-La **identidad** es lo que distingue a un objeto de todos los demás, incluso si tienen el mismo estado. Es similar a la dirección de memoria de una variable en C, algo único que identifica al objeto durante su existencia. El **estado** está determinado por los valores de sus atributos (variables miembro), que pueden cambiar a lo largo del tiempo. Por ejemplo, un objeto de tipo coche podría tener como estado: color rojo, velocidad 60 km/h, motor encendido.
+La **identidad (dirección de memoria)** es lo que distingue a un objeto de todos los demás, incluso si tienen el mismo estado (nombre). Es similar a la dirección de memoria de una variable en C, algo único que identifica al objeto durante su existencia. 
 
-El **comportamiento** se define mediante los métodos (funciones miembro) que puede ejecutar el objeto. Estos métodos pueden consultar o modificar el estado del objeto, o interactuar con otros objetos. Siguiendo el ejemplo del coche, sus comportamientos podrían incluir: acelerar, frenar, girar, etc. Estos tres elementos trabajan juntos para representar entidades del mundo real en el software.
+El **estado (nombre)** está determinado por los valores de sus atributos (variables miembro), que pueden cambiar a lo largo del tiempo. Por ejemplo, un objeto de tipo coche podría tener como estado: color rojo, velocidad 60 km/h, motor encendido. Las variables de una *struct* se definen como **campos**.
 
-## 5. ¿Qué es una clase? ¿Es lo mismo que un objeto? ¿Qué es una instancia? ¿Todos los lenguajes orientados a objetos manejan el concepto de clase?
+El **comportamiento** se define mediante los métodos (funciones) que todos los objetos de esa clase pueden hacer. Estos métodos pueden consultar o modificar el estado del objeto, o interactuar con otros objetos. Siguiendo el ejemplo del coche, sus comportamientos podrían incluir: acelerar, frenar, girar, etc. Estos tres elementos trabajan juntos para representar entidades del mundo real en el software.
 
-### Respuesta
+## 5. ¿Qué es una clase? ¿Es lo mismo que un objeto? ¿Qué es una instancia? ¿Todos los lenguajes orientados a objetos manejan el concepto de clase? 
 
 Una **clase** es una plantilla o molde que define la estructura y comportamiento que tendrán los objetos creados a partir de ella. Define qué atributos tendrá el objeto (sus datos) y qué métodos podrá ejecutar (sus funciones). Es similar a cómo en C se define un `struct` que especifica los campos que tendrán las variables de ese tipo, pero además incluye las funciones que operan sobre esos datos.
 
-Una clase **no es lo mismo** que un objeto. La clase es la definición abstracta, mientras que el objeto es una entidad concreta creada en memoria a partir de esa clase. Una **instancia** es precisamente eso: un objeto concreto creado a partir de una clase. Por ejemplo, se puede tener la clase `Coche` (la plantilla) y crear varias instancias como `miCoche` y `tuCoche` (objetos concretos en memoria).
-
-No todos los lenguajes orientados a objetos manejan el concepto de clase. Existen lenguajes basados en **prototipos** como JavaScript (aunque las versiones modernas añadieron clases como sintaxis), donde los objetos se crean clonando otros objetos existentes en lugar de instanciar clases. Sin embargo, la mayoría de lenguajes POO populares (Java, C++, C#, Python) sí utilizan el paradigma basado en clases.
+Una clase **no es lo mismo** que un objeto. La clase es la definición abstracta, mientras que el objeto es una entidad concreta (ciertos atributos) creada en memoria a partir de esa clase (variables). Una **instancia** es precisamente eso: un objeto concreto creado a partir de una clase. Por ejemplo, se puede tener la clase `Coche` (la plantilla) y crear varias instancias como `miCoche` y `tuCoche` (objetos concretos en memoria).
 
 ## 6. ¿Dónde se almacenan en memoria los objetos? ¿Es igual en todos los lenguajes? ¿Qué es la **recolección de basura**?? 
-
-### Respuesta
 
 En la mayoría de lenguajes orientados a objetos, los objetos se almacenan en una región de memoria dinámica llamada **heap** (montículo), similar a cuando se usa `malloc()` en C. Al crear un objeto con `new`, se reserva memoria en el heap y se devuelve una referencia (similar a un puntero) a esa ubicación. Esta memoria persiste hasta que el objeto es explícitamente liberado o es eliminado por el recolector de basura.
 
@@ -68,7 +71,7 @@ Esta característica mejora la legibilidad del código al permitir usar nombres 
 
 ```java
 class Punto {
-    double x;
+    double x; // Estad (atributo)
     double y;
     
     double calculaDistanciaAOrigen() {

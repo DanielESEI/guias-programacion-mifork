@@ -16,13 +16,17 @@ Finalmente, la **abstracción** consiste en modelar entidades del mundo real med
 ## 2. Cita cuatro lenguajes populares que permitan la programación orientada a objetos
 
 ### Dinámicos
--**JavaScript** (alto nivel, sin clases)
+- **JavaScript** (alto nivel, sin clases)
 - **Python**: Lenguaje multiparadigma que soporta POO de forma natural y flexible.
+
 ### Compilados (Programas Grandes)
 **Recolectores de Basura** (GC)
+
 - **Java**: Lenguaje puramente orientado a objetos (casi todo es un objeto), multiplataforma gracias a la JVM.
 - **C#**: Lenguaje orientado a objetos desarrollado por Microsoft para la plataforma .NET, similar a Java en muchos aspectos.
-- **Sin Recolectores de Basura** (No GC)
+
+**Sin Recolectores de Basura** (No GC)
+
 - **C++**: Extensión de C que añade soporte para POO, permitiendo combinar programación estructurada y orientada a objetos.
 - **Rust**
 
@@ -58,6 +62,14 @@ En la mayoría de lenguajes orientados a objetos, los objetos se almacenan en un
 No es igual en todos los lenguajes. En C++, el programador tiene control total: puede crear objetos en la pila (stack) como variables locales, o en el heap usando `new`, siendo responsable de liberarlos con `delete`. En Java, todos los objetos se crean obligatoriamente en el heap mediante `new`, y las variables locales solo almacenan referencias a esos objetos. En C#, existen los tipos valor (`struct`) que se almacenan en la pila, y los tipos referencia (`class`) que van al heap.
 
 La **recolección de basura** (garbage collection) es un mecanismo automático que gestiona la memoria liberando objetos que ya no son accesibles desde el programa. A diferencia de C donde hay que usar `free()` manualmente, lenguajes como Java, Python o C# incorporan un recolector que periódicamente identifica objetos sin referencias y los elimina, evitando pérdidas de memoria (memory leaks) y liberando al programador de esta responsabilidad. Esto simplifica el desarrollo pero puede introducir pausas impredecibles en la ejecución.
+
+**Ventajas de Usar Heap**
+- Reserva dinámica, el tamaño se decide en ejecución.
+- Lo que está en el Heap, vive más allá que el método o función donde se ha creado.
+
+**Desventajas de Usar Heap**
+- Hay que liberarla cuando ya no se necesita -> Manual (difícil de hacer)
+                                             -> Automático (Recolector de Basura) 
 
 ## 7. ¿Qué es un método? ¿Qué es la **sobrecarga de métodos**? 
 
@@ -103,19 +115,13 @@ En este ejemplo se crea una instancia de `Punto` usando `new Punto()`, se asigna
 
 El punto de entrada de un programa en Java es el método `public static void main(String[] args)`. Cuando se ejecuta un programa Java, la JVM (Java Virtual Machine) busca este método específico en la clase indicada y comienza la ejecución desde ahí. Es el equivalente a la función `main()` de C, pero con la particularidad de que debe estar dentro de una clase.
 
-La palabra clave `static` indica que un método o atributo pertenece a la clase en sí, no a las instancias individuales. Esto significa que se puede invocar sin necesidad de crear un objeto. Por ejemplo, `Math.sqrt()` es un método estático que se llama directamente desde la clase `Math` sin crear una instancia. El método `main` debe ser `static` porque la JVM lo ejecuta antes de crear cualquier objeto. No solo se usa para `main`: se pueden crear otros métodos y atributos estáticos cuando se necesita funcionalidad o datos compartidos por todas las instancias de una clase.
+La palabra clave `static` indica que un método o atributo pertenece a la clase en sí, no a las instancias individuales (concretas). Esto significa que se puede invocar sin necesidad de crear un objeto. Por ejemplo, `Math.sqrt()` es un método estático que se llama directamente desde la clase `Math` sin crear una instancia. El método `main` debe ser `static` porque la JVM lo ejecuta antes de crear cualquier objeto. No solo se usa para `main`: se pueden crear otros métodos y atributos estáticos cuando se necesita funcionalidad o datos compartidos por todas las instancias de una clase.
 
 Cuando se combina `static` con `final`, se crean **constantes de clase**. `final` significa que el valor no puede cambiar después de su inicialización. Por ejemplo, `public static final double PI = 3.14159;` crea una constante que pertenece a la clase (no a instancias individuales) y cuyo valor es inmutable. Esto es útil para definir valores que son iguales para todos los objetos y que no deben modificarse, similar a `#define` o `const` en C.
 
 ## 10. Intenta ejecutar un poco de Java de forma básica, con los comandos `javac` y `java`. ¿Cómo podemos compilar el programa y ejecutarlo desde linea de comandos? ¿Java es compilado? ¿Qué es la **máquina virtual**? ¿Qué es el *byte-code* y los ficheros `.class`?
 
-Para compilar un programa Java desde línea de comandos se usa `javac NombreArchivo.java`, que genera archivos `.class`. Para ejecutar se usa `java NombreClase` (sin extensión). Por ejemplo: `javac PruebaPunto.java` genera `PruebaPunto.class` y `Punto.class`, luego `java PruebaPunto` ejecuta el programa. Es importante que el nombre del archivo coincida con el nombre de la clase pública que contiene.
-
-Java es un lenguaje **semicompilado**. A diferencia de C que compila directamente a código máquina nativo del procesador, Java compila a un formato intermedio llamado **bytecode**. Este bytecode no es código máquina de ningún procesador específico, sino instrucciones para la **Máquina Virtual de Java** (JVM). Los archivos `.class` contienen este bytecode, que es portátil entre diferentes sistemas operativos y arquitecturas.
-
-La **JVM** es un programa que interpreta y ejecuta el bytecode. Actúa como una capa de abstracción entre el programa Java y el sistema operativo real. Esto permite que el mismo archivo `.class` se ejecute sin modificaciones en Windows, Linux, Mac, etc., siempre que tengan una JVM instalada. Es el principio "write once, run anywhere" de Java.
-
-El bytecode es más compacto y rápido de interpretar que el código fuente original, pero más lento que código máquina nativo. Las JVM modernas incluyen compiladores JIT (Just-In-Time) que convierten bytecode a código nativo durante la ejecución para mejorar el rendimiento.
+Para compilar un programa Java desde la línea de comandos se usa `javac Archivo.java`, que genera los `.class`. Para ejecutar se usa `java Clase` (sin extensión). Java es compilado a **bytecode**, y la **JVM** es la máquina virtual que ejecuta ese bytecode; por eso los `.class` son portables entre sistemas.
 
 ## 11. En el código anterior de la clase `Punto` ¿Qué es `new`? ¿Qué es un **constructor**? Pon un ejemplo de constructor en una clase `Empleado` que tenga DNI, nombre y apellidos
 
@@ -147,7 +153,7 @@ En este ejemplo, el constructor recibe tres parámetros y los asigna a los atrib
 
 ## 12. ¿Qué es la referencia `this`? ¿Se llama igual en todos los lenguajes? Pon un ejemplo del uso de `this` en la clase `Punto`
 
-`this` es una referencia implícita al objeto actual sobre el cual se está ejecutando un método. Es similar a un puntero al objeto mismo, permitiendo acceder a sus atributos y métodos. Se usa principalmente cuando hay ambigüedad entre nombres de parámetros y atributos, o cuando se necesita pasar el objeto actual como argumento a otro método.
+`this` (no está disponible en métodos static) es una referencia implícita al objeto actual sobre el cual se está ejecutando un método. Es similar a un puntero al objeto mismo, permitiendo acceder a sus atributos y métodos. Se usa principalmente cuando hay ambigüedad entre nombres de parámetros y atributos, o cuando se necesita pasar el objeto actual como argumento a otro método.
 
 No se llama igual en todos los lenguajes orientados a objetos. En Java y C++ se usa `this`, en Python se usa `self` (aunque es solo una convención, técnicamente puede tener cualquier nombre), y en algunos lenguajes como Smalltalk no es necesario especificarlo explícitamente. Sin embargo, el concepto es universal: siempre existe una forma de referirse al objeto actual.
 
@@ -212,56 +218,49 @@ En este ejemplo, `p1.distanciaA(p2)` calcula la distancia desde p1 hasta p2. Den
 
 ## 14. El paso del `Punto` como parámetro a un método, es **por copia** o **por referencia**, es decir, si se cambia el valor de algún atributo del punto pasado como parámetro, dichos cambios afectan al objeto fuera del método? ¿Qué ocurre si en vez de un `Punto`, se recibiese un entero (`int`) y dicho entero se modificase dentro de la función? 
 
-En Java, todos los parámetros se pasan **por valor**, pero esto puede resultar confuso al principio. Cuando se pasa un objeto como `Punto`, lo que realmente se copia es la **referencia** (similar a copiar un puntero en C), no el objeto completo. Esto significa que si dentro del método se modifican los atributos del objeto (`otro.x = 10;`), estos cambios **sí afectan** al objeto original fuera del método, porque ambas referencias apuntan al mismo objeto en memoria.
-
-Sin embargo, si se intenta cambiar la propia referencia dentro del método (`otro = new Punto(0, 0);`), esto **no afecta** a la variable fuera del método, porque solo se está modificando la copia local de la referencia. Es como si en C se pasara un puntero por valor: se puede modificar el contenido apuntado (`*p = 5`), pero no se puede hacer que el puntero original apunte a otra dirección.
-
-Para tipos primitivos como `int`, `double`, `boolean`, etc., se pasa una copia del valor. Si se modifica el parámetro dentro del método (`n = 100;`), este cambio **no afecta** a la variable original fuera del método. Solo existe la copia local del valor, similar al comportamiento tradicional de C.
-
-En resumen: en Java los objetos se pasan "por referencia de valor" (la referencia se copia) y los tipos primitivos se pasan por valor (el valor se copia). Las modificaciones a los atributos de objetos sí persisten, pero las reasignaciones de parámetros no.
+En Java, todos los parámetros se pasan **por valor**. En objetos se copia la referencia, por eso modificar atributos sí afecta al objeto original, pero reasignar la **referencia no (solo cambia la copia local)**. En tipos primitivos se copia el valor, así que cambios dentro del método no afectan a la variable original. En otras palabras: se puede cambiar el estado del objeto recibido, pero no cambiar a que referencia apunta la variable externa.
 
 ## 15. ¿Qué es el método `toString()` en Java? ¿Existe en otros lenguajes? Pon un ejemplo de `toString()` en la clase `Punto` en Java
 
-`toString()` es un método especial en Java que devuelve una representación textual del objeto en forma de `String`. Es llamado automáticamente cuando se intenta imprimir un objeto con `System.out.println()` o cuando se concatena un objeto con una cadena. Todas las clases en Java heredan este método de la clase `Object`, pero el comportamiento por defecto solo muestra el nombre de la clase y la dirección de memoria, lo cual no es muy útil.
+`toString()` devuelve una representación textual del objeto y se puede sobrescribir para mostrar datos utiles al imprimir o registrar. Si no se sobrescribe, hereda la version de `Object`, que normalmente muestra el nombre de la clase y un hash. Hay equivalentes en otros lenguajes (por ejemplo, Python `__str__()`, C# `ToString()`). En `Punto`, podria devolver algo como `Punto(3.0, 4.0)`.
 
-Por eso es común **sobrescribir** (override) este método para proporcionar una representación más informativa del objeto. Al implementar `toString()` personalizado, se puede controlar exactamente qué información del objeto se muestra y en qué formato. Esto facilita enormemente la depuración y el logging del programa.
-
-Ejemplo de `toString()` en la clase `Punto`:
+Ejemplo detallado:
 
 ```java
 class Punto {
     double x;
     double y;
-    
+
     Punto(double x, double y) {
         this.x = x;
         this.y = y;
     }
-    
+
     @Override
     public String toString() {
         return "Punto(" + x + ", " + y + ")";
     }
 }
 
-// Uso:
-Punto p = new Punto(3.0, 4.0);
-System.out.println(p);  // Imprime: Punto(3.0, 4.0)
+public class PruebaPunto {
+    public static void main(String[] args) {
+        Punto p = new Punto(3.0, 4.0);
+        System.out.println(p);            // Llama a toString()
+        System.out.println(p.toString()); // Misma salida
+    }
+}
 ```
-
-Muchos lenguajes orientados a objetos tienen métodos equivalentes: Python tiene `__str__()` y `__repr__()`, C# tiene `ToString()`, JavaScript tiene `toString()`, etc. Es un patrón común en POO.
 
 ## 16. Reflexiona: ¿una clase es como un `struct` en C? ¿Qué le falta al `struct` para ser como una clase y las variables de ese tipo ser instancias?
 
-Una clase tiene similitudes con un `struct` de C en el sentido de que ambos agrupan datos relacionados, pero una clase va mucho más allá. El `struct` solo define la estructura de datos (qué campos contiene), mientras que una clase combina datos (atributos) y funciones (métodos) que operan sobre esos datos en una sola unidad cohesiva.
-
-Lo que le falta al `struct` para ser una clase completa incluye: (1) **métodos integrados** - en C las funciones existen separadas de los structs, mientras que en POO los métodos son parte de la clase; (2) **encapsulación** - no hay manera de ocultar campos o controlar el acceso en un struct, todos son públicos por defecto; (3) **constructores y destructores** - no hay inicialización automática garantizada; (4) **herencia** - no se pueden crear structs derivados que hereden campos y funciones de otros structs.
-
-Además, faltan conceptos como sobrecarga de operadores, polimorfismo, métodos virtuales, y toda la maquinaria que permite la POO. En esencia, el `struct` proporciona solo la parte de "datos agrupados" de una clase, pero no el comportamiento, la protección de datos, ni las relaciones jerárquicas que caracterizan a la POO. C++ de hecho reconoce esto: en C++, `struct` y `class` son casi idénticos, la única diferencia es que `struct` tiene visibilidad pública por defecto mientras que `class` tiene privada.
+Un `struct` agrupa datos, pero no integra metodos ni encapsulacion. Le faltan control de acceso, constructores/destructores, herencia y polimorfismo; por eso no llega a ser una clase completa. En C++, `struct` y `class` son casi iguales, pero en C puro no existe esa integracion de comportamiento.
 
 ## 17. Quitemos un poco de magia a todo esto: ¿Como se podría “emular”, con `struct` en C, la clase `Punto`, con su función para calcular la distancia al origen? ¿Qué ha pasado con `this`?
 
-### Respuesta
+Se emula con un `struct` para los datos y funciones que reciben un puntero al `struct`. El `this` pasa a ser un parametro explicito (por ejemplo, `Punto* this`) y al llamar se pasa `&p`. Asi se logra la misma idea de "metodo" pero de forma manual.
+
+Ejemplo detallado:
+
 ```c
 #include <stdio.h>
 #include <math.h>
@@ -271,24 +270,17 @@ typedef struct {
     double y;
 } Punto;
 
-// Función que emula el método
 double calculaDistanciaAOrigen(Punto* this) {
     return sqrt(this->x * this->x + this->y * this->y);
 }
 
-int main() {
+int main(void) {
     Punto p;
     p.x = 3.0;
     p.y = 4.0;
-    
-    double dist = calculaDistanciaAOrigen(&p);
-    printf("Distancia: %f\n", dist);
+
+    double d = calculaDistanciaAOrigen(&p); // &p es el "this"
+    printf("Distancia: %.1f\n", d);        // Imprime 5.0
     return 0;
 }
 ```
-
-Para emular una clase en C, se define un `struct` con los atributos y funciones separadas que reciben un puntero al struct. Lo que en POO es implícito (`this`), en C debe hacerse **explícito**: el primer parámetro de la función es un puntero a la estructura, que representa el objeto sobre el que opera. Esta es la clave: `this` no desaparece, simplemente se convierte en un parámetro explícito.
-
-De hecho, así es aproximadamente cómo los compiladores de C++ implementan internamente los métodos: los convierten en funciones normales que reciben un puntero oculto `this` como primer argumento. La diferencia es que en POO este mecanismo está integrado en el lenguaje, proporcionando sintaxis más limpia y verificación de tipos en tiempo de compilación.
-
-Esta emulación muestra que la POO no es "magia", sino una abstracción del lenguaje que organiza código y datos de forma más natural y segura. Lenguajes como C pueden simular algunos aspectos de POO, pero requieren disciplina manual del programador para mantener las convenciones, mientras que lenguajes POO las hacen cumplir automáticamente.

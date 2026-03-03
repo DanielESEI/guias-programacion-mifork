@@ -4,7 +4,7 @@
 ## 1. Empecemos un tema sobre control de errores en lenguajes de programación, con algo básico. En C, donde no existen las excepciones, pongamos un ejemplo de una raíz que toma número flotante positivo. Queremos controlar el error si la función recibe un número negativo. El usuario debe ser informado pero desde fuera de la función `raiz` ¿Cómo indicamos ese error?. Enumera dos opciones diferentes de diseñar, poniendo un ejemplo de código de cada una.
 
 
-**Opción 1: Usar un valor de retorno especial (código de error)**
+**Opción 1: Devolver Valor Especial (código de error)**
 
 En C, una estrategia común es devolver un código de error mediante el valor de retorno. Se puede usar un valor especial como -1 o NaN para indicar que ocurrió un error. El llamador debe verificar este valor y manejar el error explícitamente. Este enfoque requiere que el programador recuerde verificar el resultado después de cada llamada a función.
 
@@ -24,7 +24,7 @@ if (raiz(-4, &res) == -1) {
 }
 ```
 
-**Opción 2: Usar una variable global o parámetro de estado**
+**Opción 2: Parámetro adicional para almacenar un código de error**
 
 Otra alternativa es usar una variable global (como `errno` en C estándar) o pasar un parámetro por referencia para indicar el estado del error. El resultado se devuelve normalmente, pero el estado del error se comunica a través de otro mecanismo. Este enfoque tampoco obliga al compilador a revisar errores, dejando la responsabilidad al programador.
 
@@ -49,16 +49,14 @@ if (errno_custom != 0) {
 
 ## 2. Brevemente ¿Qué es una **"excepción"**? ¿Con qué objetivo las usa un programador cuando implementa funciones o cuando las llama?
 
-### Respuesta
 
-Una excepción es un evento anómalo que ocurre durante la ejecución de un programa, indicando una situación excepcional que no puede ser procesada de manera normal. Es un mecanismo de control de errores más robusto que el usado en C, donde el lenguaje gestiona automáticamente la propagación del error a través de la jerarquía de llamadas.
+Una **excepción** surge en situaciones atípicas, cuando implementamos. Nos pemiten indicar más plenamente el error cuando llamamos. Nos facilita separar la lógica normal de la situación o manejo de la situación errónea.
 
 El programador utiliza excepciones con dos propósitos principales. Cuando implementa funciones, las lanza para indicar que ha ocurrido una situación anómala que no puede ser resuelta localmente (por ejemplo, un parámetro inválido o un recurso no disponible). Cuando llama a funciones, las captura y maneja para tomar decisiones sobre cómo proceder: intentar una alternativa, informar al usuario, liberar recursos o propagar el error hacia arriba. Este enfoque separa claramente la lógica normal de la lógica de manejo de errores.
 
 
 ## 3. Reescribe el mismo ejemplo de raiz, pero en Java, metiendo ese método en una clase `Calculadora` y llama a dicho método desde el método `main`, mostrando cómo se puede controlar desde fuera.
 
-### Respuesta
 
 ```java
 public class Calculadora {
@@ -88,7 +86,6 @@ En Java, la clase `Calculadora` contiene el método `raiz()` que lanza una excep
 
 ## 4. ¿Qué es **"lanzar"** una excepción? ¿Qué es **"controlar"** o **"capturar"** una excepción? ¿Qué es que se **"propague"** una excepción? ¿Qué le va ocurriendo a las funciones en la pila de llamadas por donde se va propagando la excepción? ¿Las funciones que no la controlan se reanudan después de alguna forma? Explica con el mismo ejemplo anterior en Java de la raíz cuadrada.
 
-### Respuesta
 
 **Lanzar una excepción** significa crear un objeto de excepción e interrumpir el flujo normal del programa, indicando que algo ha salido mal. Se hace con la instrucción `throw`. Por ejemplo, cuando `raiz(-4)` se ejecuta y el número es negativo, se lanza una excepción: `throw new IllegalArgumentException("El número debe ser positivo")`.
 
@@ -101,7 +98,6 @@ En Java, la clase `Calculadora` contiene el método `raiz()` que lanza una excep
 
 ## 5. ¿Qué ventajas tiene frente a C, la **"propagación natural"** de las excepciones a través de la pila (*stack*) de llamadas?
 
-### Respuesta
 
 En C, cada función debe verificar explícitamente el código de error devuelto por la función que llamó y propagarlo hacia arriba, lo que requiere escribir código repetitivo y propenso a errores en múltiples niveles. El programador debe recordar verificar cada valor de retorno, y es fácil olvidar estos controles, dejando errores sin manejar.
 
@@ -110,20 +106,22 @@ La propagación natural de excepciones en Java elimina esta necesidad. Cuando un
 
 ## 6. En orientación a objetos, ¿las excepciones suelen ser objetos? ¿Qué ventajas tiene esto en términos de encapsulación? ¿Podemos entonces crear excepciones personalizadas?
 
-### Respuesta
 
 Sí, en Java las excepciones son objetos que heredan de la clase `Exception` (o `RuntimeException`). Esto significa que una excepción es una instancia de una clase con propiedades y métodos, no simplemente un código numérico como en C. Esta característica trae importantes ventajas desde el punto de vista de la encapsulación.
 
-La encapsulación de excepciones como objetos permite que estas contengan información estructurada y accesible sobre el error: el tipo específico indica qué clase de problema ocurrió, el mensaje proporciona detalles, y se pueden agregar propiedades adicionales personalizadas. El código que captura la excepción puede acceder a esta información de manera segura y tipada.
+La encapsulación de excepciones como objetos permite que estas contengan información estructurada y accesible sobre el error: el tipo específico indica qué clase de problema ocurrió, el mensaje proporciona detalles, y se pueden agregar propiedades adicionales personalizadas. El código que captura la excepción puede acceder a esta información de manera segura y tipada. *(pueden tener métodos y crear clases excepción)*
 
 Sí, es totalmente posible crear excepciones personalizadas extendiendo `Exception` o `RuntimeException`. Por ejemplo, se podría crear `RaizNegativaException` heredando de `Exception`, permitiendo manejar errores particulares del dominio de la aplicación de manera específica. Esto mejora la claridad del código, pues los errores específicos pueden ser capturados y manejados de formas diferentes según su tipo.
 
 
 ## 7. En relación con las ventajas de la encapsulación, comparando el ejemplo en C con Java. ¿Qué **información esencial** lleva cualquier **objeto excepción** que es muy útil tener cuando se llega a un manejador?
 
-### Respuesta
 
 Todo objeto excepción en Java encapsula información esencial que es muy valiosa para el debugging y el manejo del error. La información más importante incluye: el **mensaje descriptivo** (accesible con `getMessage()`) que explica qué salió mal, el **tipo de la excepción** (que identifica la categoría del error), el **stack trace** (accesible con `printStackTrace()`) que muestra la secuencia exacta de llamadas que llevaron al error, indicando ficheros y números de línea exactos.
+
+    a) Un mensaje (getMessage())
+    b) La traza de la pila (getStackTrace o printStackTrace)
+    c) Opcionalmente, la "causa", es otra excepción que es la verdadera causa
 
 Esta información estructurada es fundamental cuando se desarrolla un programa en Java. En C, si se usa solo un código de error numérico, el programador debe mantener documentación externa sobre qué significa cada número y no obtiene automáticamente la traza de la pila. En Java, simplemente imprimiendo o inspeccionando el objeto excepción, el desarrollador obtiene un panorama completo de qué sucedió y dónde. Además, el compilador garantiza que esta información siempre está disponible, mientras que en C es fácil perder datos sobre el contexto del error.
 

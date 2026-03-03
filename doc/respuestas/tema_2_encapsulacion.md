@@ -240,12 +240,20 @@ No, solo haría clases inmutables.
 
 ## 19. ¿La clase `String` en Java es mutable o inmutable? ¿Qué ocurre al concatenar dos cadenas? ¿Qué debemos hacer si vamos a hacer una operación que implique concatenar muchas veces para construir paso a paso una cadena muy larga?
 
-String es inmutable.
+Si, String es inmutable.
+
+*"StringBuilder"* es una cadena mutable -> *"append()"* para crear Strings muy largas.
 
 
 ## 20. En POO ¿Cómo se comparan objetos de una misma clase? ¿Por su contenido o por su identidad? ¿Qué es el método equals en Java? ¿Qué hace por defecto? ¿Cómo se deben comparar dos cadenas en Java? 
 
-En POO se pueden comparar objetos por identidad (misma referencia) o por contenido (mismo estado). En Java, `equals` define la comparacion logica; por defecto, hereda el comportamiento de `Object` y compara por identidad. Para comparar contenido, se debe sobrescribir `equals` (y `hashCode`). Las cadenas se comparan con `equals`, no con `==`, porque `==` solo comprueba si es la misma referencia.
+Comparando objetos: 
+
+    a) Por identidad (Mismos objetos en Memoria) "=="
+
+    b) Por contenido (Mismo estado, valor de sus atributos) "if (obj1.equals(obj2))" -> true ó false
+
+**Equals:** por defecto hace comparación por identidad (==), excepto en clases concretas donde se implementa una comparación por contenido, ej: String.
 
 Ejemplo:
 
@@ -260,7 +268,27 @@ boolean mismoContenido = a.equals(b);   // true
 
 ## 21. ¿Qué son las clases "wrapper" en un lenguaje de programación orientado a objetos? ¿Cómo se hace? ¿Es un proceso automático? ¿Qué ventajas tienen? ¿Todos los lenguajes orientados a objetos tienen tipos primitivos y necesitan wrappers? 
 
-Las clases wrapper son clases que encapsulan tipos primitivos para tratarlos como objetos. En Java, ejemplos son `Integer`, `Double`, `Boolean`, y se usan para colecciones, metodos genericos o cuando se necesita `null`. La conversion puede ser automatica por autoboxing/unboxing, pero sigue existiendo una conversion implicita. No todos los lenguajes tienen tipos primitivos separados (por ejemplo, en Python todo es objeto), por lo que no siempre se necesitan wrappers.
+**"Wrapper"**
+    - Ocurren en lenguajes que **tienen tipos primitivos** (Java)
+    - Otros lenguajes no tienen tipos primitivos (Python)
+    - int -> Integer
+    - float -> Float
+    - char -> Character
+
+    - Ventajas:
+
+            Añadirle comportamiento
+
+            Poder usarlos en contextos donde se necesita objetos (List)
+    - Autoboxing / Unboxing
+
+            Integer: i = 7i // Autoboxing
+
+            Integer: i = new Integer(7)
+
+            int j = i; // Unboxing
+
+            j = i.intValue();
 
 Ejemplo:
 
@@ -273,8 +301,27 @@ int x = numeros.get(0);   // unboxing Integer -> int
 
 ## 22. ¿En POO qué es un **tipo de dato enumerado**? ¿En Java, un tipo de dato enumerado es una clase? ¿Qué ventajas tienen en términos de encapsulación los enumerados en Java?
 
-Un tipo enumerado representa un conjunto finito y cerrado de valores posibles. En Java, un `enum` es una clase especial con instancias predefinidas; puede tener atributos, metodos y constructor privado. En terminos de encapsulacion, permite agrupar datos y comportamiento relacionados y evita valores invalidos al restringir las instancias posibles a las del propio enumerado.
+**Enumerado:** es un tipo con un número determinado de valores posibles.
 
+En Java un enumerado **es una clase** cuyas instancias son finitas, conocidas de antemano, y tienen un nombre cada una (valor del enumerado).
+
+````Java
+public enum TipoIVA {
+    GENERAL (1.21), REDUCIDO (1.11);
+    
+    public double aplicar (double cantidad) {
+        return switch (this) {
+            case GENERAL -> return cantidad * 1.21;
+            case REDUCIDO -> return cantida * 1.11;
+            // return cantidad * this.factor; (sin necesidad de switch)
+        }
+    }
+    
+    private TipoIVA (double factor) {
+        this.factor = factor;
+    }
+}
+````
 
 ## 23. Crea un tipo enumerado en Java que se llame `Mes`, con doce posibles instancias y que además proporcione métodos para obtener cuántos días tiene ese mes, el ordinal de ese mes en el año (1-12), empleando atributos privados y constructores del tipo enumerado.
 

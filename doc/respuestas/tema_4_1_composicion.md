@@ -4,7 +4,6 @@
 
 ## 1. En C, podemos crear estructuras mayores **componiendo** unas con otras, que suelen describirse como "A tiene-un/tiene-varios B". Pon un ejemplo, empleando `struct`, de una línea de puntos, donde puntos tienen dos coordenadas (`x` e `y`), y la línea esta hecha de dos puntos. Incluye una función para calcular la distancia entre puntos y otra para hallar la longitud de una línea.
 
-### Respuesta
 
 En C, la composición de estructuras permite crear tipos complejos a partir de otros más simples. Por ejemplo, una estructura `Punto` puede tener dos coordenadas, y una estructura `Linea` puede estar formada por dos puntos. Esto se expresa como "una línea tiene dos puntos".
 
@@ -34,7 +33,6 @@ La composición permite modelar relaciones "tiene-un" de forma natural y reutili
 
 ## 2. Ahora transforma ese ejemplo a orientación a objetos con Java, para tener un primer ejemplo de **composición** en orientación a objetos. Crea una clase `Punto`, y una clase `Linea`. La clase `Punto` debe tener un método para calcular distancia a otro `Punto` y `Linea` debe tener un método para calcular su longitud. Gracias a la ocultación de información, supera a C, garantizando que los puntos sean inmutables, al igual que la línea, que una vez creada, no queremos que se modifique de qué a qué puntos va dicha línea.  
 
-### Respuesta
 
 En Java, la composición se implementa mediante clases que contienen referencias a otras clases. Se puede definir una clase `Punto` inmutable, cuyos atributos no cambian tras la construcción, y una clase `Linea` que contiene dos puntos, también inmutable.
 
@@ -80,7 +78,11 @@ La composición en Java permite encapsular y proteger el estado interno, garanti
 
 ## 3. ¿Qué significa la **multiplicidad** en la composición? En el ejemplo anterior, ¿cuál es la multiplicidad entre `Linea` y `Punto`? Indícalo expresando la multiplicidad en ambas direcciones, de `Linea` a `Punto` y de `Punto` a `Linea`.
 
-### Respuesta
+
+**Multiplicidad** de A y B (ej: entre línea y punto) en notación UML.
+
+- 1 Línea se relaciona como mínimo con 2 Puntos y como máximo con 2 Puntos.
+- 1 Punto se relaciona como mínimo con 0 Líneas y como máximo con muchas Líneas.
 
 La multiplicidad describe cuántas instancias de un tipo están asociadas a otra en una relación de composición. En el ejemplo, una `Linea` está compuesta por exactamente dos `Punto`, mientras que un `Punto` puede formar parte de ninguna, una o varias líneas.
 
@@ -88,27 +90,56 @@ De `Linea` a `Punto`, la multiplicidad es 2 (cada línea tiene dos puntos). De `
 
 ## 4. ¿Qué significa composición **fuerte** y composición **débil**? ¿Qué consecuencia implica en relación al ciclo de vida de los objetos? Indica a cuál solemos referirnos como **"asociación o agregación"** y a cuál como **"composición"** propiamente.
 
-### Respuesta
+
+### Composición Fuerte vs Débil
+ 
+- **Fuerte** -> El contenedor (ej: línea) es el que crea los objetos que contiene (ej: Punto) y estos no viven más allá del contenedor.
+    - El **ciclo de vida** está vinculado al contenedor.
+- **Débil** -> El contenedor y el contenido tienen ciclos de vida independientes (ej: los objetos Punto pueden vivir sin estar en objetos línea).
 
 La composición fuerte implica que el ciclo de vida de los objetos contenidos está ligado al del contenedor; si el contenedor se destruye, los objetos contenidos también. En la composición débil, los objetos pueden existir independientemente del contenedor.
 
 La composición fuerte se denomina "composición" propiamente dicha, mientras que la débil se conoce como "asociación" o "agregación". En la fuerte, el contenedor es responsable de crear y destruir los objetos; en la débil, solo mantiene referencias.
 
+La más habitual es la débil, como el ejemplo de la clase.
+
+En **UML** usamos *"rombos"* para expresar que el contenedor es básicamente un contenedor.
+
 ## 5. Cuando una clase usa a otra al recibirla o devolverla como parámetro en algún método, al hacer `new` dentro de un método, o al usarlas como variables locales, ¿hablamos de composición o de **"dependencia"**?
 
-### Respuesta
+
+Ejemplos de *"dependencia"*, NO Composición; ej: Punto depende de String y StringBuilder...
 
 Cuando una clase utiliza otra como parámetro, variable local o la instancia dentro de un método, se habla de "dependencia" y no de composición. La dependencia indica que una clase necesita otra para realizar alguna operación, pero no la incorpora como parte de su estructura interna.
 
 La composición implica que una clase contiene referencias a otras como parte de su estado, mientras que la dependencia es más transitoria y limitada al ámbito de métodos o funciones.
 
+
 ## 6. En el ejemplo anterior de línea y punto, programa la relación entre `Linea` y `Punto` de dos formas. Una **como composición fuerte**, donde el ciclo de vida de los puntos está ligado al de Linea y otra **como composición débil**, donde no.
 
-### Respuesta
+Composicón Débil ya hecho.
+
+**COMPOSICION FUERTE**
+```java
+class Lines {
+    private Punto p1;
+    private Punto p2;
+
+    public Linea (double x1, double x2, double y1, double y2) {
+        this.p1 = new Punto(x1, y1);
+        this.p2 = new Punto(x2, y2);
+    }
+
+    public Punto getP1() return this.p1; // No se puede hacer (PROHIBIDO)
+    public double getX1() return this.p1.getX();
+}
+
+```
 
 ## 7. En Java, en la composición fuerte, ¿cuando el contenedor destruye los objetos? No se observa que `Linea` destruya los `Punto` explícitamente, ¿Por qué?
 
-### Respuesta
+
+En Java, la vida de Punto termina cuando es inaccesible y en el ejemplo, ocurre cuando línea deja de serlo a su vez. Por tanto, cuando línea "es basura", también lo serán sus puntos y serán eliminados de memoria por el recolector de basura.
 
 En Java, la gestión de memoria se realiza mediante el recolector de basura. Cuando el contenedor (por ejemplo, `Linea`) deja de ser accesible, sus objetos internos (`Punto`) también pueden ser eliminados si no hay otras referencias. No es necesario destruir explícitamente los objetos.
 
@@ -116,9 +147,12 @@ Esto ocurre porque Java no tiene destructores manuales como C++; la eliminación
 
 ## 8. Pon un ejemplo de composicion débil entre un departamento que tiene varios profesores. Implementa dos composiciones a la vez: entre el departamento y todos sus profesores y entre el departamento y su director, que es un profesor del departamento. Siempre debe haber un director en el departamento desde el inicio. Lanza excepciones si se viola la invariante. Emplea arrays primitivos de Java, estilo `Profesor[]`, con máximo 50, pero no rompas la encapsulación, no desveles que estás empleando un array, permite añadir un `Profesor` al final de la lista, y eliminar un profesor dada su posición. Da acceso a los profesores con un método para saber cuántos hay y otro para obtener un profesor por posición. El director se puede cambiar por otro profesor del departamento. Sin embargo, ten en cuenta esta invariante de clase: el director debe formar siempre parte de la lista de profesores, es decir, ten cuidado al cambiar el director o al eliminar un profesor.
 
-### Respuesta
 
 Se puede implementar la relación usando un array privado y controlando el acceso mediante métodos públicos. El director debe ser uno de los profesores del departamento y la clase debe lanzar excepciones si se viola la invariante.
+
+- Hay 2 composiciones débiles.
+- No se expone al array al exterior (imposible garantizar invariante de clase)
+- En los métodos que gestionan el departamento se controla que no se viole la invariante de clase.
 
 ```java
 public class Profesor {
@@ -178,7 +212,6 @@ La encapsulación se mantiene y las invariantes se controlan mediante excepcione
 
 ## 9. En Java, existen también `List`, cambia y muestra cómo sería el código anterior empleando `List` en vez de arrays primitivos. ¿Qué parte del código original te has ahorrado? Además, fíjate en el método `getProfesor(int pos)`: si en su lugar existiera un método que devolviera todos los profesores a la vez, ¿qué problema tendría devolver directamente la lista interna? ¿Cómo lo resolverías?
 
-### Respuesta
 
 Usando `List`, se simplifica la gestión de profesores, eliminando la necesidad de controlar el tamaño y el desplazamiento manual de elementos. Además, se puede devolver una copia de la lista para evitar exponer la estructura interna.
 
@@ -224,9 +257,13 @@ public class Departamento {
 
 Al devolver la lista interna directamente, se podría romper la encapsulación si el cliente modifica la lista. Para evitarlo, se devuelve una copia o una vista no modificable.
 
+Con List<Profesor>...
+1. No cambia la interfaz pública.
+2. Es más fácil implementar algunos métodos, delegando en métodos de List.
+3. Si se devuelve, hay que devolver una copia, para proteger la invariante de clase.
+
 ## 10. Al igual que ocurre con las excepciones en Java, que pueden encerrar causas (que son excepciones), de forma recursiva, suponen un tipo especial de composiciones, denominadas composiciones recursivas. Pon un ejemplo en Java de una `Persona`, que sea inmutable, y que tiene una madre, que es otra `Persona`. Haz un main con un ejemplo de uso con una familia de personas, desde el nieto hasta la abuela. Enumera algún otro ejemplo clásico de composiciones recursivas.
 
-### Respuesta
 
 La composición recursiva se da cuando una clase contiene referencias a instancias de sí misma. En el caso de `Persona`, se puede definir como inmutable y con una madre, que es otra `Persona`.
 
@@ -260,7 +297,6 @@ Otros ejemplos clásicos de composición recursiva son árboles (cada nodo tiene
 
 ## 11. ¿Qué son las relaciones de composición "bidireccionales"? ¿Qué habría que hacer para implementar este tipo de relación en el ejemplo de `Profesor` y `Departamento`?
 
-### Respuesta
 
 Las relaciones de composición bidireccionales implican que ambos objetos mantienen referencias entre sí. Por ejemplo, un `Profesor` tiene un campo para su `Departamento` y el `Departamento` mantiene una lista de `Profesor`.
 

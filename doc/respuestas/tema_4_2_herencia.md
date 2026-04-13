@@ -1,7 +1,13 @@
 
 ## 1. En orientación a objetos, ¿qué es la **herencia** y su relación con "A es-un B"?. Explica las dos implicaciones principales: (1) **compatibilidad de tipos** y (2) **herencia de estado y comportamiento**. Pon un ejemplo en Java muy sencillo, donde un `Soldado` tiene un `nombre` (privado) y un método `saludar()` que muestra su nombre. Hay dos subtipos: un `Artillero`, que es capaz de disparar cohetes y un `Zapador` que pone minas, ambos heredan el atributo nombre y la capacidad de saludar. Además, y de forma específica, el artillero tiene un número de cohetes y el zapador un número de minas, accesibles mediante "getters" específicos. Respecto a la compatibilidad de tipos, aprovechémosla: crea un array de `Soldado`, mete varios de distinto tipo (son todos compatibles con `Soldado`). Recórrela y que todos te saluden.
 
-### Respuestag
+
+Composción -> "tiene un/tiene varios" rs. Herencia -> "es un"
+
+1. Compatibilidad de tipos: 
+   - Soldado s = new Artillero("pepe");
+2. Herencia de *estado*(atributos) y *comportamiento*(métodos)
+3. 
 
 En orientación a objetos, la herencia modela relaciones de especialización: si se afirma que A es-un B, entonces A puede tratarse como B. Dicho de otra forma, una subclase representa un caso particular de su superclase. Esta idea tiene dos efectos prácticos muy importantes. Primero, compatibilidad de tipos: una referencia del tipo general puede apuntar a objetos de tipos más concretos. Segundo, herencia de estado y comportamiento: la subclase reutiliza atributos y métodos de la superclase, y además puede añadir los suyos.
 
@@ -64,7 +70,6 @@ public class Demo {
 
 ## 2. Al crear los soldados concretos, ¿cuántos constructores se ejecutan y en qué orden? ¿Qué significa `super` dentro de un constructor? Si la clase base no tiene visible el constructor sin parámetros, ¿debo llamar a `super` siempre? 
 
-### Respuesta
 
 Al crear un objeto de subclase se ejecutan varios constructores, uno por cada nivel de herencia, desde la clase más general hasta la más concreta. Si se crea un `Artillero`, primero se inicializa la parte `Soldado` y después la parte `Artillero`. Ese orden garantiza que el estado común quede preparado antes de inicializar lo específico.
 
@@ -72,7 +77,6 @@ Dentro de un constructor, `super(...)` invoca el constructor de la superclase. E
 
 ## 3. Respecto a los objetos de subclases en memoria, los atributos privados de la superclase, ¿forman parte de una instancia de la subclase en memoria? En caso afirmativo ¿implica que se puedan usar desde el código de la subclase? Explícalo con el ejemplo de `Soldado` y alguna de sus subclases.
 
-### Respuesta
 
 Sí, los atributos privados de la superclase forman parte de la instancia real de la subclase en memoria. Un objeto `Artillero` contiene tanto la parte heredada de `Soldado` (por ejemplo, `nombre`) como la parte propia (`numeroCohetes`). No son dos objetos separados: es un único objeto con una zona de estado heredada y otra específica.
 
@@ -80,7 +84,6 @@ Ahora bien, que ese estado exista en memoria no significa acceso directo desde e
 
 ## 4. ¿Qué implica en términos de **extensibilidad** de código el hecho de que sean compatibles a nivel de tipos? Ilustra esto añadiendo un nuevo tipo de `Soldado` y demostrando que el código para pedir el saludo a todos los soldados no se modifica.
 
-### Respuesta
 
 La compatibilidad de tipos hace que el código sea extensible porque permite programar contra la abstracción (`Soldado`) y no contra cada subtipo concreto. Cuando se recorre un array de `Soldado` para pedir saludos, ese algoritmo no depende de si hay artilleros, zapadores u otros tipos nuevos que se añadan después.
 
@@ -114,7 +117,6 @@ for (Soldado s : peloton) {
 
 ## 5. En Java, cuando trabajo con referencias y herencia. ¿Puedo tener una referencia del supertipo que apunte a objetos reales de un subtipo? ¿Puedo invocar con la referencia del supertipo a métodos públicos del subtipo? ¿En qué consiste el **"upcasting"** y el **"downcasting"**? ¿Qué es el `instanceof`? Pon un ejemplo de recorrido de un array de `Soldado`, comprobando que, si el objeto real es un `Artillero`, solicite el número de cohetes que tiene y los imprima.
 
-### Respuesta
 
 Sí, en Java una referencia del supertipo puede apuntar a un objeto real de un subtipo. Es la base del polimorfismo y suele llamarse `upcasting` cuando se pasa de subtipo a supertipo, normalmente de forma implícita y segura. Por ejemplo, `Soldado s = new Artillero("Ana", 5);`.
 

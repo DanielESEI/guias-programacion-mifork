@@ -267,6 +267,9 @@ Con List<Profesor>...
 
 La composición recursiva se da cuando una clase contiene referencias a instancias de sí misma. En el caso de `Persona`, se puede definir como inmutable y con una madre, que es otra `Persona`.
 
+- Composiciones **reflexivas o recursivas**.
+- Composiciones **bidireccionales**.
+
 ```java
 public final class Persona {
     private final String nombre;
@@ -301,3 +304,6 @@ Otros ejemplos clásicos de composición recursiva son árboles (cada nodo tiene
 Las relaciones de composición bidireccionales implican que ambos objetos mantienen referencias entre sí. Por ejemplo, un `Profesor` tiene un campo para su `Departamento` y el `Departamento` mantiene una lista de `Profesor`.
 
 Para implementarlo, al añadir un profesor al departamento, se debe actualizar el campo del profesor para que apunte al departamento, y viceversa. Es importante evitar inconsistencias y ciclos de referencia, y gestionar correctamente la actualización de ambos lados de la relación.
+
+Las bidireccionales exigen programar cuidadosamente para mantener la consistencia.
+P.ej: Si añado un profesor al departamento, debo actualizar la inferencia al Departamento desde Profesor.

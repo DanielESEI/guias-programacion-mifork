@@ -3,7 +3,6 @@
 
 ## 1. Brevemente, ¿qué es el **"polimorfismo"** y para qué sirve en programación orientada a objetos? ¿qué es la **"sobreescritura"** de métodos?
 
-### Respuesta
 
 El polimorfismo es la capacidad de tratar objetos de distintas clases derivadas a través de una referencia del tipo base, manteniendo un mismo "mensaje" (la misma llamada a método) pero obteniendo comportamientos distintos según el objeto real. En términos prácticos, permite escribir código más general y reutilizable: en vez de preguntar constantemente "de qué tipo exacto es", se llama al método común y cada clase responde como corresponda.
 
@@ -12,7 +11,6 @@ La sobreescritura (overriding) es el mecanismo por el que una subclase redefine 
 
 ## 2. ¿En qué consiste la **"ligadura dinámica"** o **"enlace tardío"**? ¿qué relación tiene con el polimorfismo? ¿hay que indicarlos explícitamente al programar o depende esto del lenguaje? Compara C++ y Java. Indicalo después también para Python.
 
-### Respuesta
 
 La ligadura dinámica (enlace tardío) significa que la selección del método a ejecutar no se decide completamente al compilar, sino en tiempo de ejecución, según el tipo real del objeto. Es lo que hace posible que una referencia de tipo base invoque implementaciones diferentes en subclases. Por eso está directamente ligada al polimorfismo: sin ligadura dinámica, las llamadas no cambiarían de comportamiento según el objeto concreto.
 
@@ -23,7 +21,6 @@ En Python también existe despacho dinámico de métodos de forma natural, porqu
 
 ## 3. Pon un ejemplo sencillo en Java, de un `Soldado`, con un método `saluda`, con dos subclases: `Zapador` y `Artillero`, donde `Zapador` sobreescribe el método `saludar`, sustituyendo por completo su comportamiento. Ilustra el funcionamiento del polimorfismo creando un array de `Soldados` de dos tipos y luego recorriéndolo empleando referencias de tipo `Soldado` y llamando a `saludar`.
 
-### Respuesta
 
 En este ejemplo se define una clase base `Soldado` con el método `saludar`, y dos subclases (`Zapador` y `Artillero`) que pueden redefinirlo. Se hace que `Zapador` sustituya completamente el comportamiento para que se observe claramente la sobreescritura. Después se guarda una mezcla de objetos en un array de tipo `Soldado[]`.
 
@@ -69,7 +66,6 @@ public class DemoPolimorfismo {
 
 ## 4. Si sobreescribo un método, ¿puedo invocar el método base para trabajar a partir de su resultado? Haz que zapador cambie ligeramente la forma de saludar, que salude de forma normal, tal cual hace el soldado base, pero que además añada un "ZAPADOR A SUS ORDENES" ¿qué palabra clave del lenguaje has usado para invocar al método de la clase base?
 
-### Respuesta
 
 Sí, al sobreescribir un método en una subclase se puede reutilizar primero la implementación de la clase base y luego ampliar o modificar su efecto. En Java, eso se hace con la palabra clave `super`, que permite acceder al método heredado inmediato.
 
@@ -96,7 +92,6 @@ La palabra clave usada para invocar al método de la clase base es `super`.
 
 ## 5. Al sobreescribir un método en Java, ¿qué restricciones existen sobre los tipos de los parámetros y el tipo de retorno? ¿Qué diferencia hay entre sobreescritura (*overriding*) y sobrecarga (*overloading*)? ¿Para qué sirve la anotación `@Override` y por qué es recomendable usarla siempre?
 
-### Respuesta
 
 En una sobreescritura real en Java, la firma del método debe mantenerse: mismo nombre y mismos tipos de parámetros (incluido orden). El tipo de retorno debe ser el mismo o uno covariante (un subtipo del original). Además, no se puede reducir visibilidad (por ejemplo, pasar de `public` a `protected`) y no se pueden declarar excepciones comprobadas más amplias que en el método heredado.
 
@@ -107,7 +102,6 @@ La anotación `@Override` indica al compilador que se pretende sobreescribir un 
 
 ## 6. Entonces, cuando se estudia Java, ¿se emplea el polimorfismo desde el principio? Por ejemplo, sobreescribiendo `toString` o sobreescribiendo `equals`, ¿ya estoy usando polimorfismo?
 
-### Respuesta
 
 Sí, en Java se empieza a usar polimorfismo muy pronto, aunque al principio no siempre se nombre explícitamente. Cada vez que se hereda de `Object` y se redefine un método como `toString` o `equals`, se está participando en comportamiento polimórfico, porque esos métodos pueden invocarse sobre referencias generales y resolver en tiempo de ejecución la versión concreta de cada clase.
 
@@ -116,7 +110,6 @@ Por ejemplo, cuando se imprime un objeto con `System.out.println(obj)`, internam
 
 ## 7. ¿Qué es una **"clase abstracta"**? ¿Qué es un **"método abstracto"**? ¿Puedo crear instancias de una clase abstracta? Pongamos un ejemplo en Java: Redefinamos `Soldado`, hagamos que, además del método `saluda` que ya tenía, tenga un método `atacar`, que sea abstracto y que cada tipo de soldado haga su acción cuando se le pida atacar. ¿Donde debemos poner `abstract`?
 
-### Respuesta
 
 Una clase abstracta es una clase pensada como base de herencia, que puede contener métodos implementados y métodos sin implementación. Un método abstracto declara únicamente su firma y obliga a que las subclases concretas lo implementen. Por definición, no se pueden crear instancias directas de una clase abstracta.
 
@@ -149,7 +142,6 @@ class Artillero extends Soldado {
 
 ## 8. ¿Qué efecto tiene la palabra clave `final` sobre métodos y clases en Java? ¿Cómo se relaciona con el polimorfismo? ¿Conoces algún ejemplo de clase `final` en la propia API estándar de Java?
 
-### Respuesta
 
 En Java, `final` aplicado a un método impide que dicho método sea sobreescrito en subclases. Aplicado a una clase, impide que esa clase sea heredada. Es una forma de "cerrar" puntos de extensión cuando se quiere preservar comportamiento, seguridad o invariantes de diseño.
 
@@ -158,7 +150,6 @@ Su relación con el polimorfismo es directa: al impedir herencia o sobreescritur
 
 ## 9. En Java, qué son las **"interfaces"**? ¿Son como clases abstractas? ¿Una clase puede implementar más de una interfaz?
 
-### Respuesta
 
 Una interfaz en Java define un contrato: qué operaciones debe ofrecer una clase, sin obligar a una implementación concreta (salvo métodos `default` o `static` en versiones modernas). Sirve para modelar capacidades comunes entre clases que pueden no compartir la misma clase base.
 
@@ -167,7 +158,6 @@ Se parecen a las clases abstractas en que ambas pueden expresar abstracción, pe
 
 ## 10. Vamos a poner un ejemplo nuevo con polimorfismo. Queremos implementar una clase `Punto`, con un método `calcularDistanciaA`, que permite calcular la distancia a otro `Punto`. Sin embargo, como queremos trabajar con puntos 2D y 3D, haz que ese método sea abstracto y haya dos implementaciones de ese cálculo de distancia. Emplea `instanceof` y *downcasting* para verificar que se recibe un punto compatible y poder calcular correctamente la distancia siempre entre puntos del mismo subtipo. Aprovecha este diseño para crear ahora una clase `Linea`, que acepta `Punto`, sin saber de qué tipo es, y es capaz de dar su longitud independientemente de las dimensiones de sus puntos (las cuales desconoce).
 
-### Respuesta
 
 Se puede modelar `Punto` como clase abstracta con el método `calcularDistanciaA(Punto otro)`. Cada subtipo (`Punto2D`, `Punto3D`) implementa el cálculo correcto de distancia euclídea según su dimensión. Para cumplir la condición pedida, se usa `instanceof` para validar compatibilidad y luego *downcasting* para acceder a las coordenadas del subtipo concreto.
 
@@ -241,7 +231,6 @@ class Linea {
 
 ## 11. ¿Qué es la **"herencia de interfaces"** en Java? ¿Existe **"herencia múltiple de interfaces"**? Pon un ejemplo de una interfaz `Fichero` que tenga un método para leer su contenido en forma de `String` y luego dicha interfaz sea extendida por otra que sea `FicheroEscribible` que permita enviar contenido e incluso eliminar el fichero.
 
-### Respuesta
 
 La herencia de interfaces en Java consiste en que una interfaz puede extender otra para ampliar su contrato. De esta manera, una interfaz hija incluye automáticamente todos los métodos de la interfaz padre y añade nuevos métodos. Sí existe herencia múltiple de interfaces: una interfaz puede extender varias interfaces, y una clase puede implementar varias interfaces a la vez.
 

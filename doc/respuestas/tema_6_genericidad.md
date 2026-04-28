@@ -3,8 +3,6 @@
 
 ## 1. Empleando `void*` en C o `Object` en Java, pon un ejemplo de una estructura de datos, que empleando un array primitivo, permita alojar cualquier tipo de dato.
 
-### Respuesta
-
 Se puede crear una estructura de datos basada en un array de `Object`, aprovechando que en Java todas las clases heredan de `Object`. Esta es la única forma de alojar elementos heterogéneos en un único array sin usar generics.
 
 ```java
@@ -44,15 +42,12 @@ Double decimal = (Double) contenedor.obtener(2);
 
 ## 2. Brevemente, ¿Qué significa la **programación genérica**? ¿Es el ejemplo anterior un ejemplo básico de programación genérica? 
 
-### Respuesta
-
 La programación genérica es un mecanismo que permite escribir código que funcione con múltiples tipos de datos, sin perder la seguridad de tipos en tiempo de compilación. En lugar de trabajar con un tipo base común (como `Object`), se parametrizan los tipos para que el compilador verifique que se usan consistentemente.
 
 El ejemplo anterior no es un verdadero ejemplo de programación genérica, sino un workaround anterior a que existiesen generics. Utiliza `Object` como tipo común y requiere casting manual en tiempo de ejecución, lo cual es propenso a errores. La programación genérica verdadera utiliza parámetros de tipo que se conocen en tiempo de compilación, permitiendo que el compilador realice verificaciones exhaustivas sin necesidad de casting.
 
 ## 3. Indica los problemas respecto al chequeo de tipos, de emplear `void*` o `Object` cuando se crean estructuras de datos genéricas. 
 
-### Respuesta
 
 El mayor problema es que el compilador no puede verificar tipos en tiempo de compilación. Si se intenta recuperar un elemento y se realiza un casting incorrecto, el programa compilará sin problemas pero fallaré en tiempo de ejecución con una excepción `ClassCastException`. Esto hace que los errores de tipo sean difíciles de detectar durante el desarrollo.
 
@@ -61,7 +56,6 @@ Además, el código que utiliza estas estructuras requiere casting explícito y 
 
 ## 4. Vamos entonces con mecanismos de mejora de la programación genérica ¿Qué son los **parámetros de tipo**? 
 
-### Respuesta
 
 Los parámetros de tipo son variables que representan tipos desconocidos en tiempo de escritura del código, permitiendo que una clase o método funcione con cualquier tipo que se especifique posteriormente. Se declaran entre corchetes angulares `<T>`, donde `T` es una convención para representar un "Type" genérico. De esta forma, una única clase puede adaptarse a trabajar con múltiples tipos específicos sin duplicar código.
 
@@ -69,8 +63,6 @@ Cuando se instancia o utiliza una clase genérica, se especifica el tipo concret
 
 
 ## 5. En Java existe "generics", en C++ existen "templates". Pon un ejemplo de uso de programación genérica en ambos, instanciando una lista o vector dinámico que solo admite `String`. Introduce valores, y luego haz un recorrido de ellos mostrando cómo cada elemento es del tipo concreto con seguridad.
-
-### Respuesta
 
 **En Java:**
 
@@ -107,8 +99,6 @@ En ambos casos, al especificar `<String>` o `<std::string>`, el compilador verif
 
 
 ## 6. Sobre el funcionamiento de la programación genérica. ¿Qué hace el compilador cuando se instancia una clase que tiene parámetros de tipo? ¿Hace lo mismo C++ y Java? ¿Qué es el "type erasure" de Java y la "instanciación de plantillas" de C++?
-
-### Respuesta
 
 Ambos lenguajes manejan los generics de formas fundamentalmente diferentes. **En C++**, el compilador instancia una nueva copia completa de la clase para cada tipo específico utilizado. Si se crea `vector<int>` y `vector<string>`, el compilador genera dos versiones completamente independientes del código, cada una optimizada para su tipo específico. Este proceso se llama "instanciación de plantillas" y resulta en un ejecutable más grande pero potencialmente más eficiente.
 
@@ -165,8 +155,6 @@ El compilador verifica que `getPrimero()` devuelve `Double` y `getSegundo()` tam
 
 ## 8. En Java, se pueden declarar parámetros de tipo también a nivel de método, no solo a nivel de clase. Pon un ejemplo con un método genérico `seleccionaUno`, que pasados dos objetos del mismo tipo, te devuelva aleatoriamente uno de ellos. Muestra la diferencia de definirlo con dos `Object`, a definirlo con dos parámetros de tipo, en terminos de (i) evitar downcasting y (ii) forzar que ambos objetos sean del mismo tipo. 
 
-### Respuesta
-
 **Versión sin generics (con `Object`):**
 
 ```java
@@ -195,8 +183,6 @@ La diferencia fundamental es que con generics, el compilador verifica en tiempo 
 
 
 ## 9. ¿Se pueden establecer restricciones en los parámetros de tipo? Por ejemplo, si quiero definir un tipo genérico `<T>`, ¿puedo decir que tenga que ser, al menos, un número para poder tratarlo como tal? Pon un ejemplo en Java de un `Punto` con dos coordenadas, metodos `getX`, `getY`, y una función `calcularDistanciaA` otro `Punto`. Permite que esas coordenadas sean cualquier tipo de número. Pon dos soluciones: una simplemente creando coordenadas de tipo `Number` y otra añadiendo generics para reforzar el chequeo de tipos y saber exactamente con qué tipo de número trabaja el `Punto`. En este caso y respecto al "type erasure", ¿cuál es el tipo final tras la compilación?
-
-### Respuesta
 
 **Solución 1: Sin generics (usando `Number`):**
 
@@ -251,16 +237,12 @@ Respecto al "type erasure", tras la compilación ambas soluciones son equivalent
 
 ## 10. Sobre las soluciones anteriores. Si bien ambas permiten trabajar con distintos tipos de número sin duplicar la clase `Punto`, reflexiona sobre el refuerzo del chequeo de tipos con generics. ¿Permiten ambas crear un punto con una coordenada de tipo entero y la otra coordenada de tipo real? ¿Qué tipo devuelve el `getX` con la solucion sin generics y qué tipo devuelve el que tiene la solución con generics?
 
-### Respuesta
-
 La solución sin generics **sí permite** crear un punto con coordenadas de tipos diferentes: `new PuntoNumber(3, 4.5)` compila sin problemas porque ambos son aceptables como `Number`. La solución con generics **no lo permite**: al declarar `Punto<Integer> p = new Punto<>(3, 4.5)` el compilador rechaza `4.5` porque espera un `Integer`.
 
 El método `getX()` en la solución sin generics siempre devuelve `Number`, independientemente de qué tipo específico se haya almacenado. En la solución con generics, `getX()` devuelve exactamente el tipo especificado: `Integer` si se instancia `Punto<Integer>`, o `Double` si se instancia `Punto<Double>`. Esta diferencia es crucial: la solución con generics refuerza la seguridad de tipos, asegurando que ambas coordenadas sean exactamente del mismo tipo, mientras que la solución sin generics sacrifica ese refuerzo a cambio de flexibilidad.
 
 
 ## 11. Hagamos un ejemplo avanzado. El siguiente código, con interfaz `Punto`, que define un método `calcularDistanciaA(Punto p)`, junto con las implementaciones `Punto2D` y `Punto3D`. Añade generics para asegurarnos que la sobreescritura del método calcular distancia a otro `Punto` siempre es sobre un `Punto` del mismo tipo, evitando `instanceof` y el downcasting.
-
-### Respuesta
 
 ```java
 public interface Punto<T extends Punto<T>> {
@@ -302,8 +284,6 @@ Esta técnica se denomina "F-bounded polymorphism" (polimorfismo acotado-F). La 
 
 ## 12. Dado que `String` es subtipo de `Object`, ¿significa eso que `List<String>` es subtipo de `List<Object>`? ¿Y que `String[]` es subtipo de `Object[]`? Razona por qué la respuesta es diferente en cada caso y qué problema en tiempo de ejecución puede aparecer con los arrays. A partir de estos ejemplos, define qué significa que un tipo genérico sea **covariante**, **contravariante** o **invariante** respecto a su parámetro de tipo.
 
-### Respuesta
-
 La respuesta es diferente en cada caso. `String[]` **sí es** subtipo de `Object[]` debido a que los arrays son "covariantes": si se declara `Object[] array = new String[5]`, el código compila. Sin embargo, `List<String>` **no es** subtipo de `List<Object>`: asignar `List<Object> lista = new ArrayList<String>()` causa error de compilación. Esto es porque las listas genéricas son "invariantes".
 
 La diferencia se ilustra con un problema de tiempo de ejecución en arrays:
@@ -320,8 +300,6 @@ List<Object> lista = new ArrayList<String>(); // No compila
 
 
 ## 13. Java permite recuperar covarianza y contravarianza en tipos genéricos de forma controlada mediante **wildcards**. ¿Qué es un wildcard (`?`)? Muestra la diferencia entre `List<? extends T>` y `List<? super T>`, indicando en qué casos se usa cada uno. Pon dos ejemplos: (i) un método que reciba una lista de números y calcule su suma, usando `? extends`; (ii) un método que reciba una lista y le añada varios números enteros, usando `? super`.
-
-### Respuesta
 
 Un wildcard (`?`) es un tipo desconocido que permite especificar restricciones sobre qué tipos se aceptan. `List<? extends T>` acepta listas de `T` o cualquier subtipo de `T` (covariancia controlada), permitiendo **leer** elementos con seguridad, pero impidiendo **escribir** (excepto `null`). `List<? super T>` acepta listas de `T` o cualquier supertipo de `T` (contravariancia controlada), permitiendo **escribir** elementos de tipo `T`, pero impidiendo **leer** con seguridad (todo es `Object`).
 

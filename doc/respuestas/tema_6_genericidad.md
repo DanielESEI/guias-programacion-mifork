@@ -107,7 +107,6 @@ Ambos lenguajes manejan los generics de formas fundamentalmente diferentes. **En
 
 ## 7. Vamos a crear una nueva clase con parámetros de tipo. Define en Java una clase `Par`, que permite alojar dos valores de tipos diferentes. Incluye un constructor y un getter para cada tipo. Pon un ejemplo de uso de ese `Par`, por ejemplo para especificar el tipo de retorno de una función que devuelve en un `Par` la media y desviación típica de un array de `double`. 
 
-### Respuesta
 
 ```java
 public class Par<T, U> {
@@ -284,7 +283,7 @@ Esta técnica se denomina "F-bounded polymorphism" (polimorfismo acotado-F). La 
 
 ## 12. Dado que `String` es subtipo de `Object`, ¿significa eso que `List<String>` es subtipo de `List<Object>`? ¿Y que `String[]` es subtipo de `Object[]`? Razona por qué la respuesta es diferente en cada caso y qué problema en tiempo de ejecución puede aparecer con los arrays. A partir de estos ejemplos, define qué significa que un tipo genérico sea **covariante**, **contravariante** o **invariante** respecto a su parámetro de tipo.
 
-La respuesta es diferente en cada caso. `String[]` **sí es** subtipo de `Object[]` debido a que los arrays son "covariantes": si se declara `Object[] array = new String[5]`, el código compila. Sin embargo, `List<String>` **no es** subtipo de `List<Object>`: asignar `List<Object> lista = new ArrayList<String>()` causa error de compilación. Esto es porque las listas genéricas son "invariantes".
+La respuesta es diferente en cada caso. `String[]` **sí es** (es tipo compatible) subtipo de `Object[]` debido a que los arrays son "covariantes": si se declara `Object[] array = new String[5]`, el código compila. Sin embargo, `List<String>` **no es** (compatible) subtipo de `List<Object>`: asignar `List<Object> lista = new ArrayList<String>()` causa error de compilación. Esto es porque las listas genéricas son "invariantes".
 
 La diferencia se ilustra con un problema de tiempo de ejecución en arrays:
 ```java

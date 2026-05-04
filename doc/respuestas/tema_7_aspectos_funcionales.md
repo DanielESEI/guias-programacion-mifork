@@ -3,7 +3,15 @@
 
 ## 1. ¿Qué es un puntero a una función? Pon un ejemplo de código en C, donde se define una función y que reciba una cadena de caracteres como parámetro y devuelva la cadena en mayúsculas. Crea un puntero en una variable local a dicha función llamado `aMayusculas` e invócala con el puntero.
 
-### Respuesta
+Las funciones son "ciudadanos de primera clase". Una función es un tipo más:
+
+    - Se puede asignar a una variable.
+    - Se puede pasar como parámetro.
+    - Se puede devolver una función como retorno de otra.
+  
+- Closure.
+- Expresiones Lambda. *(sintaxis) - no tienen nombre*
+- En lenguajes con comprobación estática de tipos: ¿Qué tipo tienen?
 
 Un puntero a una función es una variable que almacena la dirección de memoria de una función en C, permitiendo invocar la función de forma indirecta a través del puntero. Esto es similar a los punteros a datos en C, pero en lugar de apuntar a variables, apuntan a bloques de código ejecutable. Esta característica es fundamental para implementar comportamientos dinámicos, ya que permite pasar funciones como parámetros a otras funciones o asignarlas a variables para ser invocadas posteriormente.
 
@@ -36,7 +44,6 @@ int main() {
 
 ## 2. ¿Qué es una **función lambda** en un lenguaje de programación? Pon un ejemplo similar al anterior en Javascript y otro en Java con funciones lambda. Usa una variable local `aMayusculas` para apuntar a la función lambda. Por simplicidad, en Java, emplea `Function<String, String>` para el tipo de la referencia a la función lambda.
 
-### Respuesta
 
 Una función lambda es una función anónima (sin nombre) que puede ser definida de forma compacta dentro del código, generalmente en una sola expresión. A diferencia de los punteros a funciones en C que hacen referencia a funciones nombradas previamente definidas, las lambdas permiten definir y usar funciones sin necesidad de declararlas formalmente en otro lugar. Las lambdas son especialmente útiles en lenguajes funcionales o multi-paradigma, ya que permiten escribir código más conciso y expresivo.
 
@@ -56,6 +63,8 @@ public class Main {
     public static void main(String[] args) {
         Function<String, String> aMayusculas = str -> str.toUpperCase();
         System.out.println(aMayusculas.apply("hola mundo"));  // HOLA MUNDO
+        // apply recibe un String y devuelve un String
+        // apply sólo para funciones (no void)
     }
 }
 ```
@@ -63,7 +72,6 @@ public class Main {
 
 ## 3. ¿Qué es el **paradigma funcional**? ¿Por qué a algunos lenguajes orientados a objetos como Java 8, se les llama multi-paradigma? ¿Qué quiere decir que las funciones son "ciudadanos de primera clase"?
 
-### Respuesta
 
 El paradigma funcional es un enfoque de programación que trata los programas como la evaluación de funciones matemáticas, enfatizando la inmutabilidad de datos y evitando cambios de estado. Contrasta con el paradigma imperativo (como C, donde se dan instrucciones paso a paso) y el paradigma orientado a objetos (como Java clásico, donde se organizan datos y comportamiento en objetos). En lugar de modificar variables, el paradigma funcional utiliza transformaciones de datos a través de funciones que devuelven nuevos valores.
 
@@ -74,7 +82,6 @@ Quiere decir que las funciones son "ciudadanos de primera clase" que pueden ser 
 
 ## 4. Explica la sintaxis básica de una función lambda en Java.
 
-### Respuesta
 
 La sintaxis básica de una función lambda en Java es: `(parametros) -> { cuerpo }`. Los parámetros van entre paréntesis separados por comas, seguidos del operador flecha `->` y finalmente el cuerpo de la función. Si la lambda tiene un solo parámetro, se pueden omitir los paréntesis alrededor del parámetro. Si el cuerpo es una única expresión que devuelve un valor, se pueden omitir las llaves y el `return`, escribiendo directamente la expresión.
 
@@ -93,7 +100,6 @@ Function<String, Boolean> esVacia = str -> {  // Cuerpo con varias líneas
 
 ## 5. Ahora recibamos una función como parámetro a un método y la llamaremos desde dentro. Amplia los ejemplos anteriores de Java y JavaScript con un método llamado `transformar`, que reciba un `String` como parámetro y luego una función transformadora como lo es `aMayúsculas` y la invoque desde dentro.
 
-### Respuesta
 
 Rebir funciones como parámetros es uno de los principios fundamentales de la programación funcional. Permite crear funciones genéricas que pueden aplicar diferentes transformaciones sin necesidad de conocer detalles específicos de cómo se realizará la transformación. El método `transformar` actúa como una función de orden superior (una función que recibe otras funciones como parámetros), lo que posibilita crear código altamente reutilizable y flexible.
 
@@ -128,7 +134,6 @@ console.log(transformar("hola", aMayusculas));  // HOLA
 
 ## 6. Ahora, invoca `transformar`, con una nueva función lambda directamente en la llamada a `transformar`, por ejemplo, una función lambda que invierta la cadena. Define la función de inversión justo cuando la estás pasando como parámetro.
 
-### Respuesta
 
 Esta es una de las características más poderosas de las funciones lambda: su capacidad de ser definidas "inline" (en línea) directamente en el punto de uso, sin necesidad de asignarlas previamente a una variable. Esto conduce a código más conciso y expresivo, evitando la creación de variables intermedias innecesarias. En lugar de crear primero una función y luego pasarla como parámetro, la lambda se define directamente en el argumento de la llamada al método.
 
@@ -163,7 +168,6 @@ console.log(transformar("hola", str => str.split('').reverse().join('')));  // a
 
 ## 7. ¿Qué se entiende por cierre o "closure" en el contexto de las funciones lambda? Pon un ejemplo en Java de cómo una función lambda es capaz de acceder a una variable local en el contexto donde fue definida. Modifica el ejemplo anterior, creando otra función lambda para transformar una cadena, pero que lo que haga es concatenar a la cadena de entrada otra cadena que está en una variable local definida fuera de la función lambda.
 
-### Respuesta
 
 Un closure (cierre) es la capacidad de una función lambda (o cualquier función anónima) de "capturar" y acceder a variables del contexto en el que fue definida, incluso después de que ese contexto haya desaparecido. Esto permite que la lambda "recuerde" el estado de variables externas en el momento de su creación. En C con punteros a funciones, esto no es posible de forma segura, ya que las funciones no pueden recordar referencias a variables locales. Los closures son fundamentales en lenguajes funcionales y multi-paradigma como Java 8+, JavaScript y Python.
 
@@ -192,7 +196,6 @@ public class Main {
 
 ## 8. Reflexiona: ¿en qué se diferencia entonces una función lambda de los punteros a funciones que hay en C?
 
-### Respuesta
 
 La diferencia fundamental entre lambdas y punteros a funciones en C radica en la capacidad de los closures. Los punteros a funciones en C solo pueden apuntar a funciones nombradas que están predefinidas en el código, y estas funciones no pueden acceder a variables locales del contexto desde el cual se obtiene el puntero. Las lambdas, por otro lado, son funciones anónimas que pueden ser definidas "on-the-fly" y capturar variables del contexto en el que se crean, formando un closure.
 
@@ -201,7 +204,6 @@ Otra diferencia importante es la sintaxis y la flexibilidad. Los punteros a func
 
 ## 9. Devolvamos ahora funciones. Creemos ahora una función que sea capaz de crear funciones "descuento". Una función "descuento", decrementa un porcentaje pasado como parámetro. Por simplicidad, usa `Function<Double, Double>` para su tipo. La función `crearDescuento(porcentaje)`, recibe solo el porcentaje de descuento a aplicar y devuelve la función de descuento. Prueba a crear dos descuentos distintos y aplicarlos a una cantidad. Explica la closure en la función descuento.
 
-### Respuesta
 
 Devolver funciones como resultado es otro aspecto clave de la programación funcional y demuestra el poder de los closures. La función `crearDescuento` es una función de orden superior que recibe un parámetro (el porcentaje) y devuelve una nueva función que incorpora ese parámetro en su comportamiento. Cada función devuelta es diferente dependiendo del porcentaje pasado, y "recuerda" ese porcentaje a través del closure, incluso después de que `crearDescuento` haya finalizado su ejecución.
 
@@ -230,7 +232,6 @@ public class Main {
 
 ## 10. En Java, que es un lenguaje con comprobación estática de tipos, donde los tipos se declaran, toda función lambda tiene un tipo, que se conoce como **interfaz funcional**. ¿Qué es una **interfaz funcional**? ¿Qué requisitos tiene?
 
-### Respuesta
 
 Una interfaz funcional es una interfaz de Java que define exactamente un método abstracto. Este método abstracto define la firma (parámetros y tipo de retorno) que debe tener cualquier lambda que se asigne a esa interfaz. Las interfaces funcionales actúan como tipos para las lambdas, permitiendo que Java verifique en tiempo de compilación que una lambda es compatible con el contexto donde se usa. Aunque una interfaz funcional puede tener múltiples métodos concretos (como métodos estáticos o métodos `default`), solo debe tener un método abstracto.
 
@@ -238,7 +239,7 @@ Los requisitos para una interfaz funcional son: (1) debe ser una interfaz de Jav
 
 ```java
 // Interfaz funcional correcta
-@FunctionalInterface
+@FunctionalInterface // opcional
 public interface Transformador {
     String transformar(String entrada);
 }
@@ -251,7 +252,6 @@ System.out.println(mayusculas.transformar("hola"));  // HOLA
 
 ## 11. Creemos una interfaz funcional a mano. Por ejemplo, define la interfaz funcional del ejemplo que transforma la cadena en otra. Llámale `Transformador`, que define una función que convierte una cadena de texto (`String`) en otra (`String`).
 
-### Respuesta
 
 Crear interfaces funcionales personalizadas es útil cuando se necesita un comportamiento específico que no es proporcionado por las interfaces funcionales predefinidas de Java. Al definir una interfaz funcional con nombre significativo, el código se vuelve más legible y autodocumentado, ya que el nombre comunica claramente la intención de la interfaz. Para la transformación de cadenas, una interfaz `Transformador` es mucho más expresiva que usar directamente `Function<String, String>`.
 
@@ -277,7 +277,6 @@ public class Main {
 
 ## 12. Ahora hagamos la interfaz funcional algo más genérica y empleando generics, para que permita definir un `Transformador` de un tipo en otro. Pon un ejemplo de un transformador que redondea un `Double` en un `Integer`.
 
-### Respuesta
 
 Al combinar interfaces funcionales con generics, se logra crear abstracciones altamente reutilizables que pueden trabajar con cualquier tipo de datos. La interfaz `Transformador<T, R>` con dos parámetros de tipo permite transformar de un tipo `T` a un tipo `R`, proporcionando una solución genérica para cualquier conversión de tipos. Esto es mucho más flexible que tener interfaces separadas para cada combinación de tipos, y sigue el principio DRY (Don't Repeat Yourself).
 
